@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+
 @RestController
 public class invoicecontroller 
 {
@@ -70,14 +70,8 @@ public class invoicecontroller
 	@PutMapping("/invoice")
 	public Invoice updateinvoice(Invoice invoice)
 	{
-		//Optional<Invoice> aa = repo.findById(aid);
-		
-		//if(aa.isPresent())
-		//{
-			repo.save(invoice);
-		    return invoice ;
-		//}
-		
+		repo.save(invoice);
+		return invoice ;
 	}
 	@RequestMapping("/invoice/{aid}")
 	public Optional<Invoice> getinvoice(@PathVariable("aid") int aid)

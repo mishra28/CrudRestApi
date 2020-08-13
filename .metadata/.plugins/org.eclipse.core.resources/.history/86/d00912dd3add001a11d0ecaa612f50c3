@@ -68,7 +68,7 @@ public class invoicecontroller
 	}
 	
 	@PutMapping("/invoice")
-	public Invoice updateinvoice(Invoice invoice)
+	public Invoice updateinvoice(@PathVariable("aid") int aid, Invoice invoice)
 	{
 		//Optional<Invoice> aa = repo.findById(aid);
 		

@@ -15,7 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.example.demo.inter.InvoiceRepo;
 
 import com.example.demo.model.Invoice;
-import com.example.demo.service.InvoiceCrudService;
 
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -35,8 +34,10 @@ import org.springframework.http.ResponseEntity;
 @RestController
 public class InvoiceController 
 {
-    @Autowired
-    InvoiceCrudService invoiceCrudService;	
+	
+	@Autowired
+	InvoiceRepo repository;
+	
 	@RequestMapping("/")
 	public String home() 
 	{
@@ -46,15 +47,18 @@ public class InvoiceController
 	@DeleteMapping("/invoice/{aid}")
 	public String DeleteInvoice(@PathVariable int aid)
 	{
-		invoiceCrudService.deleteFromDb(aid);
+		Invoice invoices = repository.getOne(aid);
+		
+		repository.delete(invoices);
 		
 		return "deleted";
 	}
+	
 
 	@PostMapping("/invoice")
 	public ResponseEntity<Invoice> AddInvoice(@Valid @RequestBody Invoice invoice)
 	{
-		return invoiceCrudService.validateMobileNo(invoice);
+		return validateMobileNo(invoice);
 	}
 	
 	@GetMapping("/invoice")
@@ -64,21 +68,42 @@ public class InvoiceController
 		//Invoice invoice = repo.findById(aid).orElse(new Invoice());
 		//mv.addObject(invoice);
 		//return mv;
-		return invoiceCrudService.findAll();
+		return repository.findAll();
 	}
-
+	
 	@PutMapping("/invoice/{aid}")
 	public ResponseEntity<Invoice>UpdateInvoice(@PathVariable("aid")int aid,@Valid @RequestBody Invoice invoice)
 	{
-		return invoiceCrudService.updateAll(aid, invoice);
+		Optional<Invoice> invoices = repository.findById(aid);
+		if(invoices.isPresent())
+		{
+			return validateMobileNo(invoice);
+			//repo.save(invoice);
+		    //return invoice ;
+			//return new ResponseEntity<>(repo.save(invoice), HttpStatus.OK);
+		}
+		else
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
-	
+
+	private ResponseEntity<Invoice> validateMobileNo(Invoice invoice) {
+		String regex = "^[6-9]\\d{9}$";
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(invoice.getMobileno());
+		if(matcher.matches())
+		{
+			//repo.save(invoice);
+		    //return invoice ;
+			return new ResponseEntity<>(repository.save(invoice), HttpStatus.OK);
+		}
+		else
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
 	@RequestMapping("/invoice/{aid}")
 	public Optional<Invoice> GetInvoice(@PathVariable("aid") int aid)
 	{
 		
-		return invoiceCrudService.findById(aid);
+		return repository.findById(aid);
 	}
 
-	
 }

@@ -2,3 +2,9 @@
 1597394112087	Delete element
 1597394741105	Delete element
 1597395672240	Delete element
+1597414291761	Extract method 'validateMobileNo'
+1597414488188	Rename type 'invoicecontroller'
+1597414755972	Extract method 'deleteFromDb'
+1597415391176	Extract method 'findAll'
+1597415536799	Extract method 'updateAll'
+1597415658711	Extract method 'findById'

@@ -1,7 +1,10 @@
 package com.example.demo.controller;
 
+
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,12 +29,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 @RestController
 public class invoicecontroller 
 {
 	
 	@Autowired
-	InvoiceRepo repo;
+	InvoiceRepo repository;
 	
 	@RequestMapping("/")
 	public String home() 
@@ -40,50 +45,71 @@ public class invoicecontroller
 	}
 	
 	@DeleteMapping("/invoice/{aid}")
-	public String deleteInvoice(@PathVariable int aid)
+	public String DeleteInvoice(@PathVariable int aid)
 	{
-		Invoice a = repo.getOne(aid);
+		Invoice invoices = repository.getOne(aid);
 		
-		repo.delete(a);
+		repository.delete(invoices);
 		
 		return "deleted";
 	}
 	
 
 	@PostMapping("/invoice")
-	public Invoice addinvoice(Invoice invoice)
+	public ResponseEntity<Invoice> AddInvoice(@Valid @RequestBody Invoice invoice)
 	{
-		repo.save(invoice);
-		return invoice ;
+		String regex = "^[6-9]\\d{9}$";
+		Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(invoice.getMobileno());
+        if(matcher.matches())
+		{
+        	//repo.save(invoice);
+		    //return invoice ;
+        	return new ResponseEntity<>(repository.save(invoice), HttpStatus.OK);
+		}
+         //return null;
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
 	@GetMapping("/invoice")
-	public List<Invoice> getinvoice()
+	public List<Invoice> GetInvoice()
 	{
 		//ModelAndView mv= new ModelAndView("showinvoice.jsp");
 		//Invoice invoice = repo.findById(aid).orElse(new Invoice());
 		//mv.addObject(invoice);
 		//return mv;
-		return repo.findAll();
+		return repository.findAll();
 	}
 	
-	@PutMapping("/invoice")
-	public Invoice updateinvoice(Invoice invoice)
+	@PutMapping("/invoice/{aid}")
+	public ResponseEntity<Invoice>UpdateInvoice(@PathVariable("aid")int aid,@Valid @RequestBody Invoice invoice)
 	{
-		//Optional<Invoice> aa = repo.findById(aid);
-		
-		//if(aa.isPresent())
-		//{
-			repo.save(invoice);
-		    return invoice ;
-		//}
-		
+		Optional<Invoice> invoices = repository.findById(aid);
+		if(invoices.isPresent())
+		{
+			String regex = "^[6-9]\\d{9}$";
+			Pattern pattern = Pattern.compile(regex);
+	        Matcher matcher = pattern.matcher(invoice.getMobileno());
+	        if(matcher.matches())
+			{
+	        	//repo.save(invoice);
+			    //return invoice ;
+	        	return new ResponseEntity<>(repository.save(invoice), HttpStatus.OK);
+			}
+	        else
+	        	return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			//repo.save(invoice);
+		    //return invoice ;
+			//return new ResponseEntity<>(repo.save(invoice), HttpStatus.OK);
+		}
+		else
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 	@RequestMapping("/invoice/{aid}")
-	public Optional<Invoice> getinvoice(@PathVariable("aid") int aid)
+	public Optional<Invoice> GetInvoice(@PathVariable("aid") int aid)
 	{
 		
-		return repo.findById(aid);
+		return repository.findById(aid);
 	}
 
 }

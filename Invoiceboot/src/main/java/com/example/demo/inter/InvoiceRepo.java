@@ -1,12 +1,9 @@
 package com.example.demo.inter;
 
-import org.springframework.data.repository.CrudRepository;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.demo.model.Invoice; 
+import com.example.demo.model.Invoice;
 
-public interface InvoiceRepo extends JpaRepository<Invoice,Integer> 
-{
-	
+public interface InvoiceRepo extends JpaRepository<Invoice, Integer> {
+
 }

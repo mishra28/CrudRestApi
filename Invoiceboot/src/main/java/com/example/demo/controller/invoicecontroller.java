@@ -1,84 +1,63 @@
 package com.example.demo.controller;
 
-
 import java.util.List;
 import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
-
-import com.example.demo.inter.InvoiceRepo;
-
-import com.example.demo.model.Invoice;
-import com.example.demo.service.InvoiceCrudService;
-
-import org.springframework.web.bind.annotation.RequestParam;
-
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import org.springframework.web.bind.annotation.PathVariable;
-
-import org.springframework.web.bind.annotation.PostMapping;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.model.Invoice;
+import com.example.demo.responseDto.InvoiceResponseDto;
+import com.example.demo.service.InvoiceCrudServiceimpl;
+
 @RestController
-public class InvoiceController 
-{
-    @Autowired
-    InvoiceCrudService invoiceCrudService;	
+public class InvoiceController {
+	@Autowired
+	InvoiceCrudServiceimpl invoiceCrudService;
+
 	@RequestMapping("/")
-	public String home() 
-	{
+	public String home() {
 		return "home.jsp";
 	}
-	
+
 	@DeleteMapping("/invoice/{aid}")
-	public String DeleteInvoice(@PathVariable int aid)
-	{
+	public String DeleteInvoice(@PathVariable int aid) {
 		invoiceCrudService.deleteFromDb(aid);
-		
+
 		return "deleted";
 	}
 
 	@PostMapping("/invoice")
-	public ResponseEntity<Invoice> AddInvoice(@Valid @RequestBody Invoice invoice)
-	{
+	public ResponseEntity<Invoice> AddInvoice(@Valid @RequestBody Invoice invoice) {
 		return invoiceCrudService.validateMobileNo(invoice);
 	}
-	
+
 	@GetMapping("/invoice")
-	public List<Invoice> GetInvoice()
-	{
-		//ModelAndView mv= new ModelAndView("showinvoice.jsp");
-		//Invoice invoice = repo.findById(aid).orElse(new Invoice());
-		//mv.addObject(invoice);
-		//return mv;
-		return invoiceCrudService.findAll();
+	public List<InvoiceResponseDto> GetInvoice() {
+		// ModelAndView mv= new ModelAndView("showinvoice.jsp");
+		// Invoice invoice = repo.findById(aid).orElse(new Invoice());
+		// mv.addObject(invoice);
+		// return mv;
+		return invoiceCrudService.findAllCustomer();
 	}
 
 	@PutMapping("/invoice/{aid}")
-	public ResponseEntity<Invoice>UpdateInvoice(@PathVariable("aid")int aid,@Valid @RequestBody Invoice invoice)
-	{
+	public ResponseEntity<Invoice> UpdateInvoice(@PathVariable("aid") int aid, @Valid @RequestBody Invoice invoice) {
 		return invoiceCrudService.updateAll(aid, invoice);
 	}
-	
+
 	@RequestMapping("/invoice/{aid}")
-	public Optional<Invoice> GetInvoice(@PathVariable("aid") int aid)
-	{
-		
+	public Optional<Invoice> GetInvoice(@PathVariable("aid") int aid) {
+
 		return invoiceCrudService.findById(aid);
 	}
 
-	
 }

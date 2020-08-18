@@ -8,6 +8,9 @@ public class InvoicebootApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(InvoicebootApplication.class, args);
+		{
+
+		}
 	}
 
 }

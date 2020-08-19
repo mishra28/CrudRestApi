@@ -1,1 +1,7 @@
 1597659044181	Rename type 'InvoiceCrudService'
+1597835631485	Rename package 'com.example.demo.inter'
+1597836638483	Delete element
+1597836734219	Delete element
+1597838205142	Delete element
+1597838750019	Rename type 'InvoiceRepo'
+1597838886502	Rename type 'InvoiceCrudServiceimpl'

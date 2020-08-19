@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.Invoice;
 import com.example.demo.responseDto.InvoiceResponseDto;
-import com.example.demo.service.InvoiceCrudServiceimpl;
+import com.example.demo.service.InvoiceCrudServiceImpl;
 
 @RestController
 public class InvoiceController {
 	@Autowired
-	InvoiceCrudServiceimpl invoiceCrudService;
+	InvoiceCrudServiceImpl invoiceCrudService;
 
 	@RequestMapping("/")
 	public String home() {
@@ -42,10 +42,6 @@ public class InvoiceController {
 
 	@GetMapping("/invoice")
 	public List<InvoiceResponseDto> GetInvoice() {
-		// ModelAndView mv= new ModelAndView("showinvoice.jsp");
-		// Invoice invoice = repo.findById(aid).orElse(new Invoice());
-		// mv.addObject(invoice);
-		// return mv;
 		return invoiceCrudService.findAllCustomer();
 	}
 

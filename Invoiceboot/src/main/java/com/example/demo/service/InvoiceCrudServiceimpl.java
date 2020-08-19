@@ -11,15 +11,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.inter.InvoiceRepo;
 import com.example.demo.model.Invoice;
+import com.example.demo.repository.InvoiceRepository;
 import com.example.demo.responseDto.InvoiceResponseDto;
 
 @Service
-public class InvoiceCrudServiceimpl implements InvoiceCrudService {
+public class InvoiceCrudServiceImpl implements InvoiceCrudService {
 
 	@Autowired
-	InvoiceRepo repository;
+	InvoiceRepository repository;
 
 	@Override
 	public ResponseEntity<Invoice> validateMobileNo(Invoice invoice) {
@@ -27,8 +27,6 @@ public class InvoiceCrudServiceimpl implements InvoiceCrudService {
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(invoice.getMobileno());
 		if (matcher.matches()) {
-			// repo.save(invoice);
-			// return invoice ;
 			return new ResponseEntity<>(repository.save(invoice), HttpStatus.OK);
 		} else
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -52,7 +50,6 @@ public class InvoiceCrudServiceimpl implements InvoiceCrudService {
 
 			invoiceListOne.add(invoiceDto);
 		}
-		// return repository.findAll();
 		return invoiceListOne;
 	}
 
@@ -61,9 +58,7 @@ public class InvoiceCrudServiceimpl implements InvoiceCrudService {
 		Optional<Invoice> invoices = repository.findById(aid);
 		if (invoices.isPresent()) {
 			return validateMobileNo(invoice);
-			// repo.save(invoice);
-			// return invoice ;
-			// return new ResponseEntity<>(repo.save(invoice), HttpStatus.OK);
+
 		} else
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}

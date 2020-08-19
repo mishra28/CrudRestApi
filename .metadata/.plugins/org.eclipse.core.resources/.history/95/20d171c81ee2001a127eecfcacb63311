@@ -5,8 +5,8 @@ import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 
-import com.example.demo.model.entity.Invoice;
-import com.example.demo.model.responseDto.InvoiceResponseDto;
+import com.example.demo.model.Invoice;
+import com.example.demo.responseDto.InvoiceResponseDto;
 
 public interface InvoiceCrudService {
 	public ResponseEntity<Invoice> validateMobileNo(Invoice invoice);

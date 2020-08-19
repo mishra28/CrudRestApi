@@ -11,9 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.model.entity.Invoice;
-import com.example.demo.model.responseDto.InvoiceResponseDto;
+import com.example.demo.model.Invoice;
 import com.example.demo.repository.InvoiceRepository;
+import com.example.demo.responseDto.InvoiceResponseDto;
 
 @Service
 public class InvoiceCrudServiceImpl implements InvoiceCrudService {

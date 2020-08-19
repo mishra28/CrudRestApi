@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.model.entity.Invoice;
-import com.example.demo.model.responseDto.InvoiceResponseDto;
+import com.example.demo.model.responseDt.InvoiceResponseDto;
 import com.example.demo.repository.InvoiceRepository;
 
 @Service

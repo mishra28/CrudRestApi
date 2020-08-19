@@ -1,0 +1,23 @@
+package com.example.demo.responseDto;
+
+public class InvoiceResponseDto {
+	private String aname;
+	private String mobileNo;
+
+	public String getAname() {
+		return aname;
+	}
+
+	public void setAname(String aname) {
+		this.aname = aname;
+	}
+
+	public String getMobileNo() {
+		return mobileNo;
+	}
+
+	public void setMobileNo(String mobileNo) {
+		this.mobileNo = mobileNo;
+	}
+
+}
